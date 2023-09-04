@@ -22,8 +22,20 @@ async function runScript() {
   const page = await context.newPage();
 
   try {
-    await page.goto("https://www.metaspace.co.ke", { timeout: 60000 });
+    await page.goto("https://www.google.com");
 
+    //search for "playwright"
+    await page.fill("#APjFqb", "metaspace innovations ltd");
+
+    //click enter
+    await page.press("#APjFqb", "Enter");
+
+    //get the first search result and click on it
+    await page.click(
+      "#rso > div:nth-child(1) > div > div > div.kb0PBd.cvP2Ce.jGGQ5e > div > div > a"
+    );
+    //wait for page to load
+    await page.waitForTimeout(5000);
     // Scroll down to the bottom of the page
     await page.evaluate(() => {
       window.scrollTo(0, document.body.scrollHeight);
@@ -47,12 +59,14 @@ async function runScript() {
     await page.click("text=Contact");
     // Wait for 5 seconds
     await page.waitForTimeout(5000);
-
-    // Capture a screenshot and save concecutively
-    await page.screenshot({ path: `screenshots/${Date.now()}.png` });
+    //date
+    var date = new Date()
+      .toISOString()
+      .replace(/[-:.T]/g, "")
+      .slice(0, 14);
 
     // Capture a screenshot and save consecutively
-    await page.screenshot({ path: `screenshots/${Date.now()}.png` });
+    // await page.screenshot({ path: `screenshots/${date}.png` });
   } catch (error) {
     console.error("Error:", error);
   } finally {
